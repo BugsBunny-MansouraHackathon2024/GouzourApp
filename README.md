@@ -39,3 +39,4 @@ Join us in shaping the future of this project – your contributions are invalua
 Distributed under the MIT License. See `LICENSE` file for more information.
 
 ## Made for GDG Delta - Mansoura Hackathon 2024
+Made with the latest cutting-edge technologies and patterns. #GDG_Delta
