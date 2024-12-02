@@ -1,7 +1,8 @@
 
 # Gouzour 
 
-A simple+lightweight template for a Jetpack Compose app with Navigation, Retrofit, Dagger-Hilt fully setup for convenience, so you can **focus only on what's important!**
+A simple+lightweight application made using Jetpack Compose
+With Navigation, Retrofit, Dagger-Hilt fully setup for easier code maintenance
 
 > ***"Every line of code should be written once, and only once." - Ron Jeffries***
 
@@ -36,3 +37,6 @@ Join us in shaping the future of this project – your contributions are invalua
 ## License
 
 Distributed under the MIT License. See `LICENSE` file for more information.
+
+## Made for GDG Delta - Mansoura Hackathon 2024
+Made with the latest cutting-edge technologies and patterns. #GDG_Delta
