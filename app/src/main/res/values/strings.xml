@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Gouzour</string>
+    <string name="register">Register</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="phone">Phone Number</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="forgot">Forgot Password?</string>
+    <string name="next">Next</string>
+    <string name="other_acc">Or login using</string>
+    <string name="account_exists">Already have an account?</string>
+    <string name="login">Login</string>
+    <string name="plc_name">Enter your name</string>
+    <string name="plc_email">Enter your e-mail</string>
+    <string name="plc_pass_reg">Create your password</string>
+    <string name="plc_pass_log">Enter your password</string>
+    <string name="plc_phone">Enter your phone number</string>
+    <string name="choose_job">Choose your current job to start</string>
 </resources>

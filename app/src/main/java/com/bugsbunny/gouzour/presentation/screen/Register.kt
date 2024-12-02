@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -33,6 +35,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
@@ -45,9 +49,12 @@ import com.bugsbunny.gouzour.presentation.viewmodel.RegisterViewModel
 fun RegisterScreen(navController: NavController) {
     /* TO DO VIEW MODEL INTEGRATION */
 
+    var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+    var phoneNo by remember { mutableStateOf("") }
+    var rememberMe by remember { mutableStateOf(false) }
 
     val errorMessage by remember { mutableStateOf<String?>(null) }
     val context = LocalContext.current
@@ -65,17 +72,20 @@ fun RegisterScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "إنشاء حساب",
+                text = stringResource(R.string.register),
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
             OutlinedTextField(
-                value = "email",
-                onValueChange = {email = it},
-                label = { Text("الاسم") },
-                placeholder = { Text("اكتب اسمك") },
+                value = name,
+                onValueChange = {name = it},
+                label = { Text(stringResource(R.string.name)) },
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.Person, contentDescription = "Password Icon")
+                },
+                placeholder = { Text(stringResource(R.string.plc_name)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
@@ -83,10 +93,10 @@ fun RegisterScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(8.dp))
 
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
-                label = { Text("البريد الالكتروني") },
-                placeholder = { Text("ادخل بريدك الالكتروني") },
+                value = email,
+                onValueChange = {email = it},
+                label = { Text(stringResource(R.string.email)) },
+                placeholder = { Text(stringResource(R.string.plc_email)) },
                 leadingIcon = {
                     Icon(imageVector = Icons.Default.Email, contentDescription = "Email Icon")
                 },
@@ -97,10 +107,10 @@ fun RegisterScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(8.dp))
 
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
-                label = { Text("كلمة المرور") },
-                placeholder = { Text("اختر كلمة مرور") },
+                value = password,
+                onValueChange = {password = it},
+                label = { Text(stringResource(R.string.password)) },
+                placeholder = { Text(stringResource(R.string.plc_pass_reg)) },
                 leadingIcon = {
                     Icon(imageVector = Icons.Default.Lock, contentDescription = "Password Icon")
                 },
@@ -112,12 +122,16 @@ fun RegisterScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(8.dp))
 
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
-                label = { Text("رقم التليفون") },
-                placeholder = { Text("+20********") },
+                value = phoneNo,
+                onValueChange = {phoneNo = it},
+                label = { Text(stringResource(R.string.phone)) },
+                placeholder = { Text(stringResource(R.string.plc_phone)) },
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.Call, contentDescription = "Password Icon")
+                },
                 modifier = Modifier.fillMaxWidth(),
-                singleLine = true
+                singleLine = true,
+                isError = phoneNo.isNotEmpty() && !isValidNum(phoneNo)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -126,11 +140,11 @@ fun RegisterScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Checkbox(checked = false, onCheckedChange = {})
-                Text(text = "تذكرني", modifier = Modifier.padding(start = 8.dp))
+                Checkbox(checked = rememberMe, onCheckedChange = {rememberMe = it})
+                Text(text = stringResource(R.string.remember_me), modifier = Modifier.padding(start = 8.dp))
                 Spacer(modifier = Modifier.weight(1f))
                 TextButton(onClick = { /* TODO: Add forget password action */ }) {
-                    Text(text = "نسيت كلمة المرور؟", color = MaterialTheme.colorScheme.primary)
+                    Text(text = stringResource(R.string.forgot), color = MaterialTheme.colorScheme.primary)
                 }
             }
         }
@@ -147,12 +161,12 @@ fun RegisterScreen(navController: NavController) {
                     .height(48.dp),
                 colors = ButtonDefaults.buttonColors(GozGreen) // Green color
             ) {
-                Text(text = "تابع", color = Color.White)
+                Text(text = stringResource(R.string.next), color = Color.White)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(text = "أو تسجيل بواسطة", style = MaterialTheme.typography.bodyMedium)
+            Text(text = stringResource(R.string.other_acc), style = MaterialTheme.typography.bodyMedium)
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -162,7 +176,7 @@ fun RegisterScreen(navController: NavController) {
             ) {
                 Card {
                     IconButton(onClick = { /* TODO: Facebook login action */ }) {
-//                    Icon(painter = painterResource(id = R.drawable.ic_facebook), contentDescription = "Facebook")
+                    Icon(painter = painterResource(id = R.drawable.ic_facebook), contentDescription = "Facebook")
                     }
                 }
 
@@ -181,12 +195,22 @@ fun RegisterScreen(navController: NavController) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "لديك حساب بالفعل؟")
+                Text(text = stringResource(R.string.account_exists))
                 Spacer(modifier = Modifier.width(8.dp))
                 TextButton(onClick = { /* TODO: Navigate to login screen */ }) {
-                    Text(text = "تسجيل دخول", color = GozGreen)
+                    Text(text = stringResource(R.string.login), color = GozGreen)
                 }
             }
         }
     }
+}
+
+fun isValidText(text: String): Boolean {
+    return text.matches(Regex("[a-zA-Z]+"))
+}
+fun isValidEmail(text: String): Boolean {
+    return text.matches(Regex("[a-zA-Z]+"))
+}
+fun isValidNum(text: String): Boolean {
+    return text.matches(Regex("^(?:\\+?2?0)?(1[0-5][0-9]{8})\$"))
 }

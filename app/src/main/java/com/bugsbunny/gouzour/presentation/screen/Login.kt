@@ -15,8 +15,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,217 +53,138 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.bugsbunny.gouzour.R
+import com.bugsbunny.gouzour.presentation.ui.theme.GozGreen
 import com.bugsbunny.gouzour.presentation.viewmodel.LoginViewModel
 import com.bugsbunny.gouzour.presentation.viewmodel.UserViewModel
 
-//@Composable
-//fun LoginScreen(navController: NavController,
-//                viewModel: LoginViewModel,
-//                userViewModel: UserViewModel) {
-//    Surface(
-//        color = Color.White,
-//        modifier = Modifier.fillMaxSize()
-//    ) {
-//        Column(
-//            modifier = Modifier
-//                .verticalScroll(rememberScrollState())
-//                .fillMaxSize()
-//                .padding(16.dp)
-//                .background(Color.White),
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//            verticalArrangement = Arrangement.Center
-//        ) {
-//            // App title
-//            Spacer(modifier = Modifier.height(40.dp))
-//
-//            Text(
-//                text = stringResource(id = R.string.welcomeBack),
-//                fontSize = 18.sp,
-//                fontWeight = FontWeight.Bold,
-//                textAlign = TextAlign.Center,
-//                color = Color.Black
-//            )
-//
-//            Spacer(modifier = Modifier.height(12.dp))
-//            Text(
-//                text = stringResource(id = R.string.putYourDataHere),
-//                fontSize = 16.sp,
-//                textAlign = TextAlign.Center,
-//                color = Color.Gray
-//            )
-//
-//            Spacer(modifier = Modifier.height(30.dp))
-//
-//
-//            // Email Input
-//            OutlinedTextField(
-//                value = email,
-//                onValueChange = { email = it },
-//                label = { Text(stringResource(id = R.string.email), color = Color.Black) },
-//                singleLine = true,
-//                modifier = Modifier.fillMaxWidth(),
-//                shape = RoundedCornerShape(20.dp),
-//                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-//                leadingIcon = {
-//                    Icon(
-//                        painter = painterResource(id = R.drawable.email_icon),
-//                        contentDescription = "Email Icon",
-//                        tint = Color.Black
-//                    )
-//                }
-//            )
-//
-//            Spacer(modifier = Modifier.height(16.dp))
-//
-//
-//            // Password Input
-//            OutlinedTextField(
-//                value = password,
-//                onValueChange = { password = it },
-//                label = { Text(stringResource(id = R.string.password), color = Color.Black) },
-//                modifier = Modifier.fillMaxWidth(),
-//                shape = RoundedCornerShape(20.dp),
-//                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-//                leadingIcon = {
-//                    Icon(
-//                        painter = painterResource(id = R.drawable.lock_icon),
-//                        contentDescription = "Password Icon",
-//                        tint = Color.Black
-//                    )
-//                },
-//                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-//
-//                trailingIcon = {
-//                    val image =
-//                        if (passwordVisible) {
-//                            painterResource(id = R.drawable.show_password)
-//                        } else {
-//                            painterResource(id = R.drawable.hide_password)
-//                        }
-//
-//                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
-//                        Icon(
-//                            painter = image,
-//                            contentDescription = "Toggle password visibility",
-//                            tint = Color.Black
-//
-//                        )
-//                    }
-//                }
-//            )
-//
-//            Spacer(modifier = Modifier.height(8.dp))
-//
-//
-//            Text(
-//                text = stringResource(id = R.string.forgotPassword_),
-//                modifier = Modifier
-//                    .align(Alignment.End)
-//                    .clickable { },
-//                color = Color.Black
-//            )
-//
-//
-//
-//
-//            Spacer(modifier = Modifier.height(32.dp))
-//
-//            errorMessage?.let {
-//                Text(text = it, color = Color.Red)
-//
-//            }
-//            when (authState) {
-//                is LoginState.Loading -> CircularProgressIndicator(
-//                    modifier = Modifier.align(
-//                        Alignment.CenterHorizontally
-//                    )
-//                )
-//
-//                is LoginState.Error -> {
-//                    Column {
-//                        Text(
-//                            text = (authState as LoginState.Error).message,
-//                            color = MaterialTheme.colorScheme.error
-//                        )
-//                        Button(
-//                            onClick = { viewModel.login(email, password) },
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .height(50.dp),
-//                            shape = RoundedCornerShape(12.dp),
-//                            colors = ButtonDefaults.buttonColors(colorResource(id = R.color.appColor))
-//                        ) {
-//                            Text(
-//                                text = stringResource(id = R.string.signIn),
-//                                color = Color.White,
-//                                fontSize = 18.sp
-//                            )
-//                        }
-//                    }
-//                }
-//
-//                is LoginState.AdminSuccess -> {
-//                    LaunchedEffect(Unit) {
-//                        navController.navigate(Routes.MASTER)
-//                    }
-//                }
-//
-//                is LoginState.UserSuccess -> {
-//                    LaunchedEffect(Unit) {
-//                        val emailExists = userViewModel.checkIfEmailExists(email)
-//                        if (emailExists) {
-//                            navController.navigate(Routes.MAIN)
-//                        } else {
-//                            navController.navigate(Routes.COMPLETE_PROFILE)
-//
-//                            userViewModel.getUserByEmail(email)
-//                            val user = userViewModel.user.value
-//                        }
-//                    }
-//                }
-//
-//                else -> {
-//                    Button(
-//                        onClick = {
-//                            viewModel.login(email, password)
-//                        },
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .height(50.dp),
-//                        shape = RoundedCornerShape(12.dp),
-//                        colors = ButtonDefaults.buttonColors(colorResource(id = R.color.appColor))
-//                    ) {
-//                        Text(
-//                            text = stringResource(id = R.string.signIn),
-//                            color = Color.White,
-//                            fontSize = 18.sp
-//                        )
-//                    }
-//                }
-//            }
-//
-//
-//
-//            Spacer(modifier = Modifier.height(16.dp))
-//
-//            // Sign In Text
-//            TextButton(onClick = { navController.navigate(Routes.SIGNUP) }) {
-//                Row {
-//                    Text(
-//                        text = stringResource(id = R.string.dontHaveAnAccount),
-//                        fontSize = 16.sp,
-//                        color = Color.Black
-//                    )
-//                    Spacer(modifier = Modifier.width(8.dp))
-//                    Text(
-//                        text = stringResource(id = R.string.signUp),
-//                        fontSize = 16.sp,
-//                        color = colorResource(id = R.color.appColor)
-//                    )
-//                }
-//            }
-//
-//
-//        }
-//    }
-//}
+@Composable
+fun LoginScreen(navController: NavController) {
+    var name by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
+    var phoneNo by remember { mutableStateOf("") }
+    var rememberMe by remember { mutableStateOf(false) }
+
+    val errorMessage by remember { mutableStateOf<String?>(null) }
+    val context = LocalContext.current
+    //    val authState by viewModel.registerStateFlow.collectAsState()
+
+    Column(
+    modifier = Modifier
+    .fillMaxSize()
+    .padding(16.dp),
+    verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(R.string.login),
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            OutlinedTextField(
+                value = email,
+                onValueChange = {email = it},
+                label = { Text(stringResource(R.string.email)) },
+                placeholder = { Text(stringResource(R.string.plc_email)) },
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.Email, contentDescription = "Email Icon")
+                },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            OutlinedTextField(
+                value = password,
+                onValueChange = {password = it},
+                label = { Text(stringResource(R.string.password)) },
+                placeholder = { Text(stringResource(R.string.plc_pass_log)) },
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.Lock, contentDescription = "Password Icon")
+                },
+                visualTransformation = PasswordVisualTransformation(),
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Checkbox(checked = rememberMe, onCheckedChange = {rememberMe = it})
+                Text(text = stringResource(R.string.remember_me), modifier = Modifier.padding(start = 8.dp))
+                Spacer(modifier = Modifier.weight(1f))
+                TextButton(onClick = { /* TODO: Add forget password action */ }) {
+                    Text(text = stringResource(R.string.forgot), color = MaterialTheme.colorScheme.primary)
+                }
+            }
+        }
+
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Button(
+                onClick = { /* TODO: Add continue action */ },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(GozGreen) // Green color
+            ) {
+                Text(text = stringResource(R.string.next), color = Color.White)
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(text = stringResource(R.string.other_acc), style = MaterialTheme.typography.bodyMedium)
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Card {
+                    IconButton(onClick = { /* TODO: Facebook login action */ }) {
+                        Icon(painter = painterResource(id = R.drawable.ic_facebook), contentDescription = "Facebook")
+                    }
+                }
+
+                Spacer(modifier = Modifier.width(16.dp))
+                Card {
+                    IconButton(onClick = { /* TODO: Google login action */ }) {
+                        Icon(painter = painterResource(id = R.drawable.ic_google), contentDescription = "Google")
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = stringResource(R.string.account_exists))
+                Spacer(modifier = Modifier.width(8.dp))
+                TextButton(onClick = { /* TODO: Navigate to login screen */ }) {
+                    Text(text = stringResource(R.string.login), color = GozGreen)
+                }
+            }
+        }
+    }
+}

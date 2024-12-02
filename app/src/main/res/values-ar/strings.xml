@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">جذور</string>
+    <string name="register">إنشاء حساب</string>
+    <string name="name">الاسم</string>
+    <string name="email">البريد الالكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="phone">رقم التليفون</string>
+    <string name="remember_me">تذكرني</string>
+    <string name="forgot">نسيت كلمة المرور؟</string>
+    <string name="next">تابع</string>
+    <string name="other_acc">أو تسجيل بواسطة</string>
+    <string name="account_exists">لديك حساب بالفعل؟</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="plc_name">ادخل اسمك</string>
+    <string name="plc_email">ادخل بريدك الالكتروني</string>
+    <string name="plc_pass_reg">اختر كلمة المرور</string>
+    <string name="plc_pass_log">اكتب كلمة المرور</string>
+    <string name="plc_phone">ادخل رقم هاتفك</string>
+    <string name="choose_job">اختر هويتك للبدء</string>
 </resources>
